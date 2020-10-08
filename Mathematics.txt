@@ -1,0 +1,349 @@
+** Finding number of digits in a number
+
+* Iterative solution
+
+int countDigit(long n)
+{
+int count = 0;
+while(n!=0)
+{
+n=n/10;
+count++;
+}
+return count;
+}
+
+* Recursive solution
+
+int countDigit(long n)
+{
+if(n==0)
+return 0;
+else 
+return 1+countDigit(n/10);
+}
+
+* Logarithmic solution (One line solution)
+
+int countDigit(long n)
+{
+return floor(log10(n)+1);	// log n to the base 10
+}
+
+
+** AP and GP
+
+Sum of AP = n/2(2*a + (n-1)*d)
+
+Sum of GP = a(1-r^n)/(1-r)
+
+
+** Quadratic Equation
+
+D = b*b - 4*a*c
+x = (-b +- sqrt(D))/(2*a)
+
+if D<0, we have imaginary roots
+if D=0, we have equal roots
+if D>0, we have 2 distinct roots
+
+
+** Prime numbers
+
+Every prime number can be represented in the form of 6n+1 or 6n-1 except 2 and 3 where n is a natural number.
+
+
+** Factorial
+
+n! = n*(n-1)....1
+0! = 1
+
+
+** Permutations and Combinations
+
+nPr = n!/(n-r)!
+
+nCr = n!/r!*(n-r)!
+
+
+** Primality testing
+
+1) BRUTE FORCE APPROACH  :- O(n)
+
+   for(int i = 2; i < n; i++ )
+   {
+      	if(n%i==0)
+	return false;
+   }
+	return true;
+
+2) SQRT APPROACH  :- O(sqrt(n))
+   
+   if(n==1)
+   	return false;
+   for(int i = 2; i*i <= n; i++ )
+   {
+      	if(n%i==0)
+	return false;
+   }
+	return true;
+
+
+** SIEVE OF ERATOSTHENES :- O(nloglogn)
+
+bool is_prime[1000001]
+
+void sieve()
+{
+int maxN = 1000000;
+for(int i = 1; i <= maxN; i++) is_prime[i] = true;
+is_prime[0] = is_prime[1] = false;
+
+for(int i = 2; i*i <= maxN; i++)
+{
+	if(is_prime[i])
+	{
+		for(int j = i*i; j<= maxN; j+=i)
+			is_prime[j] = false;
+	}
+}
+}
+
+
+** PRIME FACTORIZATION  
+
+* BRUTE FORCE :- O(N)
+
+void primeFact(int n)
+{
+	for(int i = 2; i <= n; i++)
+	if(n%i==0)
+	{
+		int cnt = 0; 
+		while(n%i==0)
+		ctr++, n/=i;
+		cout<<i<<"^"<<cnt<<endl;
+	}
+}
+
+
+** Trailing zeros in a Factorial
+
+No. of trailing zeros in a factorial = floor(n/5) + floor(n/25) + floor(n/125)+....
+
+
+int countTrailingZeros(int n)
+
+{
+	
+int res = 0;
+
+	
+for(int i=5; i<=n; i=i*5)
+	
+{
+		
+res = res + (n / i);
+	
+}
+
+	
+return res;
+
+}
+
+
+** GCD 
+
+* Naive :- O(min(a,b))
+
+int gcd(int a, int b)
+{
+int res = min(a,b);
+while(res>0)
+{
+if(a%res == 0 && b%res == 0)
+break;
+res--;
+}
+return res;
+}
+
+
+* Euclid's algorithm for calculating GCD
+
+int gcd(int a, int b)
+{
+while(a!=b)
+{
+if(a>b)
+a = a-b;
+else
+b = b-a
+}
+return a;
+}
+
+* Optimised Euclidean Algorithm for GCD :- O(log(min(a,b)))
+
+int gcd(int a, int b)
+{
+if(b==0)
+return a;
+else
+return gcd(b,a%b);
+}
+
+
+** LCM
+
+int gcd(int a, int b)
+{
+if(b==0)
+return a;
+else
+return gcd(b,a%b);
+}
+
+int lcm(int a, int b)
+{
+return (a*b)/gcd(a,b);
+}
+
+
+** Prime Factors
+
+Naive :- O(n^2logn)
+
+void primeFactors(int n)
+{
+for(int i = 2; i < n; i++)
+{
+if(isPrime(i)
+{
+int x = i;
+while(n%x == 0)
+{
+print(i);
+x = x*i;
+}
+}
+}
+}
+
+
+Efficient method for prime factors 
+
+void printPrimeFactors(int n)
+{
+if(n <= 1)
+return;
+for(int i=2; i*i<=n; i++)
+{
+while(n % i == 0)
+{
+cout<<i<<" ";
+n = n / i;
+}
+}
+if(n > 1)
+cout<<n<<" ";
+cout<<endl;
+}
+
+
+* More efficient code for Prime factors
+
+void printPrimeFactors(int n)
+{
+if(n <= 1)
+return;
+while(n % 2 == 0)
+{
+cout<<2<<" ";
+n = n / 2;
+}
+while(n % 3 == 0)
+{
+cout<<3<<" ";
+n = n / 3;
+}
+for(int i=5; i*i<=n; i=i+6)
+{
+while(n % i == 0)
+{
+cout<<i<<" ";
+n = n / i;
+}
+while(n % (i + 2) == 0)
+{
+cout<<(i + 2)<<" ";
+n = n / (i + 2);
+}
+}
+if(n > 3)
+cout<<n<<" ";
+cout<<endl;
+}
+
+
+** All the divisors of a number
+
+void printDivisors(int n)
+{
+for(int i=1; i*i <= n; i++)
+{
+if(n % i == 0)
+{
+cout<<i<<" ";
+if(i != (n / i))
+cout<<(n / i)<<" ";					
+}
+}
+}
+
+
+** Sieve of Eratosthenes
+
+
+void sieve(int n)
+{
+if(n <= 1)
+return;
+bool isPrime[n+1];
+fill(isPrime, isPrime + n + 1, true);
+for(int i=2; i*i <= n; i++)
+{
+if(isPrime[i])
+{
+for(int j = i*i; j <= n; j = j+i)
+{
+isPrime[j] = false;
+}
+}
+}
+for(int i = 2; i<=n; i++)
+{
+if(isPrime[i])
+cout<<i<<" ";
+}
+}
+
+
+Compute Power (x^y)
+
+power(x,y) = power(x,y/2)*power(x,y/2) 		if y is even ( We can calc. power(x,y/2) once only)
+power(x,y) = power(x,y/2)*x			if y is odd	
+
+int power(int x, int n)
+{
+if(n == 0)
+return 1;
+int temp = power(x, n/2);
+temp = temp * temp;
+if(n % 2 == 0)
+return temp;
+else
+return temp * x; 
+}
+
