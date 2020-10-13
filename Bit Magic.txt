@@ -1,0 +1,249 @@
+** BITWISE OPERATORS
+
+1) BITWISE AND (&)
+2) BITWISE OR  (|)
+3) BITWISE XOR (^)
+4) LEFT SHIFT :-   x<<y = x*2^y
+5) RIGHT SHIFT :-  x>>y = floor(x/(2^y))
+6) BITWISE NOT (~)
+
+
+** Check kth bit from the right side is set or not
+
+* Using left shift
+
+void isKthBitSet(int n, int k) 
+{
+if (n & (1 << (k - 1))) 
+		cout << "SET"; 
+	
+else
+		
+cout << "NOT SET"; 
+
+} 
+
+* Using right shift
+
+void isKthBitSet(int n, int k) 
+{
+
+if ((n >> (k - 1)) & 1) 
+		cout << "SET"; 
+	
+else
+
+cout << "NOT SET"; 
+
+} 
+
+
+
+** Count set digits
+
+* Naive Solution :- Theta(total number of bits)
+
+unsigned int countSetBits(unsigned int n) 
+{ 
+unsigned int count = 0; 
+while (n != 0) {
+if (n % 2 != 0)
+count++;
+n = n/2;      
+} 
+return count; 
+} 
+
+
+* Brian and Kerningham Algorithm :- O(number of set bits)
+
+unsigned int countSetBits(int n) 
+{ 
+       
+unsigned int count = 0; 
+       
+while (n) 
+{ 
+          
+n &= (n - 1); 
+          
+count++; 
+       
+} 
+      
+return count; 
+
+}
+
+* Look up table :- thetha(1)
+ 
+#include <bits/stdc++.h> 
+using namespace std; 
+
+int table[256];
+	
+void initialize() { 
+	// To initially generate the table algorithmically:
+      table[0] = 0;
+      for (int i = 0; i < 256; i++)
+      {
+          table[i] = (i & 1) + table[i / 2];
+      }
+} 
+	
+int countSetBits(int n)
+{
+	return table[n & 0xff] + 
+        table[(n >> 8) & 0xff] + 
+        table[(n >> 16) & 0xff] + 
+        table[n >> 24]; 
+}
+
+/* Program to test function countSetBits */
+int main() 
+{ 
+initialize();
+int n = 9; 
+cout << countSetBits(n); 
+return 0; 
+} 
+
+
+** Check if the number is the power of 2 or not
+
+* Naive solution :- 
+
+bool isPow2(int n)
+{
+    
+if(n == 0)
+        
+return true;
+    
+    
+while(n != 1)
+    
+{
+        
+if(n % 2 != 0)
+            
+return false;
+        
+        
+n = n / 2;
+    
+}
+    
+    
+return true;
+
+}
+
+
+* Efficient method :-  In the numbers which are a power of 2, always have only 1 set bit 
+(4 :- 100, 8 :- 1000, 16 :- 10000). So, if we unset the rightmost set bit, our answer becomes 0.
+And we can unset the rightmost set bit by doing and with n-1.
+
+bool isPow2(int n)
+{
+    
+if(n == 0)
+        
+return true;
+    
+    
+return ((n & (n - 1)) == 0);
+
+}
+
+
+** Find the 1 odd occuring number ( Means find the number which occurs odd times and rest all occur even number of times)
+
+Approach :- We'll do xor of all the numbers. The numbers occuring twice will cancel out each other and the answer of xor will be the number which is appearing odd number of times.
+
+int findOdd(int arr[], int n)
+{
+    
+int res = 0;
+    
+    
+for(int i = 0; i < n; i++)
+    
+{
+        
+res = res ^ arr[i];
+    
+}
+    
+    
+return res;
+
+}
+  
+
+
+* If we are given a number let's say 4 and an array containing n-1 numbers from 1 to n and we are asked to find the missing number, then we can simply do xor of all the numbers from 1 to n and xor of all the array elements and finally do the xor of the 2 results. Then the answer will be the missing number. Bcoz the numbers which are given in the array will cancel out with the numbers in range 1-n and the missing number will remain and will be the answer of the final xor.
+
+Same approach can also be followed if we are given a particular range and we are asked to find the number missing in the range.
+
+
+** Find the 2 odd occuring numbers
+
+#include <iostream>
+using namespace std;
+
+void oddAppearing(int arr[], int n)
+{
+int xors = 0, res1 = 0, res2 = 0; 
+for (int i = 0; i < n; i++) 
+xors = xors ^ arr[i]; 
+int sn = xors & (~(xors - 1)); 
+for (int i = 0; i < n; i++) 
+{ 
+if ((arr[i] & sn) != 0) 
+res1 = res1 ^ arr[i]; 
+else
+res2 = res2 ^ arr[i]; 
+} 
+cout <<  res1 << " " << res2;
+}
+
+int main() {
+int arr[]= {3, 4, 3, 4, 5, 4, 4, 6, 7, 7}, n = 10;
+oddAppearing(arr, n);  
+}
+
+** Find power set of string using bitwise
+
+eg :- s = "abc"
+    Power set = "",'a','b','c',"ab","bc","ac","abc"
+
+void printPowerSet(string str)
+{
+	
+int n = str.length();
+
+	
+int powSize = pow(2, n);
+
+	
+for(int counter = 0; counter < powSize; counter++)
+	
+{
+		
+for(int j = 0; j < n; j++)
+		
+{
+			
+if((counter & (1 << j)) != 0)
+                
+cout<<str[j];
+		
+}
+		
+		
+cout<<endl;
+	
+}
+
+}
